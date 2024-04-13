@@ -1,0 +1,11 @@
+:root {
+    --indigo-900: #3f3d56; /* Define the variable */
+  }
+  
+  .head {
+    width: 100vw;
+    height: 100px;
+    background-color: var(--bs-primary-bg-subtle); /* Using a Bootstrap variable */
+    background-color: rgb(15, 15, 221)
+  }
+  
