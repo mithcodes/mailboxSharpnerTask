@@ -12,38 +12,45 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== "" && email !== "") {
-      if (false /* You need to define login state */) {
-        
-      } else {
-        if (password === cnfPassword) {
-          try {
-            let response = await fetch(
-              "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA44-cb4m78RrIm4B6-Lllff_gawB6Ef9s",
-              {
-                method: "POST",
-                body: JSON.stringify({
-                  email,
-                  password,
-                  returnSecureToken: true,
-                }),
-              }
-            );
-            let data = await response.json();
-            if (data.error) return alert(data.error.message);
-            else {
-              alert("You have successfully registered!");
-            }
-          } catch (err) {
-            console.log(err);
-          }
-        } else {
-          return alert("Password does not match");
-        }
-      }
-    } else {
+    // Check if email and password are not empty
+    if (email === "" || password === "") {
       alert("Please Enter Email and Password");
+      return;
     }
+
+    // Check if password matches confirm password
+    if (password !== cnfPassword) {
+      alert("Password does not match");
+      return;
+    }
+
+    try {
+      // API call for user registration
+      let response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyA44-cb4m78RrIm4B6-Lllff_gawB6Ef9s",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email,
+            password,
+            returnSecureToken: true,
+          }),
+        }
+      );
+
+      let data = await response.json();
+
+      // Check API response for errors
+      if (data.error) {
+        alert(data.error.message);
+      } else {
+        alert("You have successfully registered!");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    // Clear form fields after submission
     setEmail("");
     setPassword("");
     setCnfPassword("");
